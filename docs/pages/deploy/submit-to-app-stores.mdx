@@ -184,3 +184,35 @@ You can also submit your app manually to the Google Play Store and Apple App Sto
   Icon={EasSubmitIcon}
   href="/submit/eas-json/"
 />
+The provided documentation effectively guides users through submitting their apps to the Apple App Store and Google Play Store using EAS Submit. Here's a breakdown of the key elements and considerations:
+
+### **Apple App Store Submission**
+- **Prerequisites**: 
+  - Valid Apple Developer account and proper bundle identifier setup in `app.json`.
+  - EAS CLI installation and authentication.
+  - Production build via EAS Build or local methods (Xcode).
+- **Submission Command**: `eas submit --platform ios` initiates a guided submission process. Ensure App Store Connect app record setup (EAS may assist here).
+
+### **Google Play Store Submission**
+- **Prerequisites**:
+  - Google Play Developer account and service account key configuration for API access.
+  - Initial manual app upload (due to Google API restrictions).
+  - Correct package name in `app.json` and production build (EAS Build or Android Studio).
+- **Submission Command**: `eas submit --platform android` starts the process. The service account key must be uploaded to EAS beforehand.
+
+### **Automation with EAS Workflows**
+- **Workflow File**: Example YAML automates builds and submissions on push to `main`. Jobs for Android/iOS build and submit are chained using `needs`.
+- **Manual Trigger**: `eas workflow:run` executes the workflow without a git push.
+
+### **Key Considerations**
+- **Metadata Handling**: EAS Submit relies on existing app store listings. Ensure metadata (screenshots, descriptions) is configured in App Store Connect/Play Console.
+- **First-Time Submissions**: iOS may require manual App Store Connect setup (e.g., app details). Google Play requires an initial manual upload.
+- **Build Profiles**: The `--profile production` assumes a valid configuration in `eas.json`. Users should verify their build settings.
+
+### **Improvements & Clarifications**
+- **Service Account Key**: Emphasize uploading the JSON key via `eas credentials` for Android.
+- **App Store Connect Setup**: Note that iOS submissions might require manual steps in App Store Connect for app details before submission.
+- **Error Handling**: Mention common issues (e.g., invalid credentials, missing metadata) and link to troubleshooting resources.
+
+### **Final Notes**
+The guide is comprehensive but assumes familiarity with app store requirements. Users should double-check store guidelines (e.g., Apple’s App Review, Google’s policy compliance) to avoid rejections. The automated workflow example simplifies CI/CD, reducing manual effort for frequent updates.
